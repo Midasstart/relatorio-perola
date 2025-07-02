@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório - Pérola</title>
+    
+    <!-- Estilos CSS embutidos no HTML -->
+    <style>
+        /* Importação da Fonte do Google */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* Reset e Configurações Globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121217;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Cabeçalho do Relatório */
+        .report-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #3d3d5c;
+        }
+        .report-header h1 {
+            font-size: 2.8em;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .report-header .subtitle {
+            font-size: 1.2em;
+            color: #a0a0b8;
+            font-weight: 300;
+        }
+
+        /* Seções */
+        .section {
+            background-color: #1a1a23;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .section-title {
+            font-size: 1.8em;
+            color: #8c7ae6;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #8c7ae6;
+            display: inline-block;
+        }
+        
+        /* Grid Layout para Cards e Blocos de Info */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        /* Cards de Destaque (KPIs) */
+        .kpi-card {
+            background: linear-gradient(145deg, #232332, #1d1d28);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #3d3d5c;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(140, 122, 230, 0.2);
+        }
+        .kpi-card .label {
+            font-size: 1em;
+            color: #a0a0b8;
+            margin-bottom: 10px;
+        }
+        .kpi-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .kpi-card .value.positive {
+            color: #00d2d3;
+        }
+        .kpi-card .value.revenue {
+            color: #55efc4;
+        }
+        .kpi-card .value.negative {
+            color: #ff7675;
+        }
+
+        /* Bloco de Informações Diretas */
+        .info-block {
+            background-color: #232332;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #3d3d5c;
+        }
+        .info-block h3 {
+            color: #a0a0b8;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #3d3d5c;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+        .info-block ul {
+            list-style: none;
+            padding: 0;
+        }
+        .info-block li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5px;
+            border-bottom: 1px solid #2a2a3a;
+            font-size: 0.95em;
+        }
+        .info-block li:last-child {
+            border-bottom: none;
+        }
+        .info-block li .label {
+            color: #e0e0e0;
+        }
+        .info-block li .value-group {
+            text-align: right;
+        }
+        .info-block li .number {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1.1em;
+        }
+        .info-block li .percentage {
+            font-size: 0.9em;
+            color: #a0a0b8;
+            margin-left: 8px;
+        }
+
+        /* Bloco de Cálculo Financeiro */
+        .calculation-breakdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 25px;
+            background-color: #121217;
+            border-radius: 10px;
+            border: 1px solid #3d3d5c;
+        }
+        .calc-item {
+            text-align: center;
+            padding: 15px 20px;
+            background-color: #232332;
+            border-radius: 8px;
+        }
+        .calc-item span {
+            display: block;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .calc-item label {
+            font-size: 0.9em;
+            color: #a0a0b8;
+            margin-top: 5px;
+            display: block;
+        }
+        .calc-item.positive span {
+            color: #55efc4;
+        }
+        .calc-item.negative span {
+            color: #ff7675;
+        }
+        .calc-operator {
+            font-size: 2.5em;
+            color: #8c7ae6;
+            font-weight: 300;
+            padding: 0 10px;
+        }
+
+        /* Lista de Insights */
+        .insight-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .insight-list li {
+            background-color: #232332;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #8c7ae6;
+            font-size: 0.95em;
+        }
+        .insight-list li strong {
+            color: #a0a0b8;
+        }
+        
+        /* ROI Section */
+        .roi-section {
+            text-align: center;
+        }
+        .roi-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            align-items: center;
+            gap: 30px;
+        }
+        .roi-calculation-details h3 {
+            text-align: left; 
+            font-weight: 400; 
+            color: #a0a0b8;
+        }
+        .roi-calculation-details .roi-calculation {
+            text-align: left;
+            font-size: 1.2em;
+            color: #a0a0b8;
+            margin-bottom: 15px;
+        }
+        .roi-value {
+            font-size: 5em;
+            font-weight: 700;
+            color: #00d2d3;
+            text-shadow: 0 0 15px rgba(0, 210, 211, 0.5);
+        }
+        .roi-label {
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: -10px;
+        }
+
+        /* Bloco de Contexto/Transparência */
+        .context-note {
+            background-color: rgba(0, 210, 211, 0.05);
+            border: 1px solid rgba(0, 210, 211, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            font-size: 0.9em;
+            color: #a0a0b8;
+            text-align: center;
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #3d3d5c;
+            font-size: 0.9em;
+            color: #a0a0b8;
+        }
+
+        /* ======================================================= */
+        /* ================ REGRAS DE RESPONSIVIDADE ================ */
+        /* ======================================================= */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            .report-header h1 {
+                font-size: 2.2em;
+            }
+            .section-title {
+                font-size: 1.5em;
+            }
+            .kpi-card .value {
+                font-size: 2.1em;
+            }
+            .grid-container {
+                gap: 15px;
+            }
+            .calculation-breakdown {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .calc-operator {
+                font-size: 2em;
+                padding: 5px 0;
+            }
+            .info-block li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .info-block li .value-group {
+                text-align: left;
+            }
+            .roi-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .roi-calculation-details h3, .roi-calculation-details .roi-calculation {
+                text-align: center;
+            }
+            .roi-value {
+                font-size: 4.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <header class="report-header">
+            <h1>Relatório de Desempenho e Impacto Financeiro</h1>
+            <p class="subtitle">Pérola | Clínica Allpé Podologia | Junho 2025</p>
+        </header>
+
+        <main>
+            <!-- SEÇÃO: RESUMO EXECUTIVO (KPIs) -->
+            <section class="section">
+                <h2 class="section-title">Resumo Executivo</h2>
+                <div class="grid-container">
+                    <div class="kpi-card">
+                        <div class="label">Total de Agendamentos</div>
+                        <div class="value" id="total-agendamentos">253</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Receita Efetiva Gerada</div>
+                        <div class="value revenue" id="receita-efetiva">R$ 16.721,50</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Retorno Sobre Investimento (ROI)</div>
+                        <div class="value positive" id="roi-kpi">847,73%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: DESEMPENHO OPERACIONAL -->
+            <section class="section">
+                <h2 class="section-title">Desempenho Operacional</h2>
+                <div class="grid-container">
+                    <div class="info-block">
+                        <h3>Agendamentos por Horário</h3>
+                        <ul>
+                            <li><span class="label">Durante o Expediente</span><div class="value-group"><span class="number">163</span><span class="percentage">(64,4%)</span></div></li>
+                            <li><span class="label">Fora do Expediente</span><div class="value-group"><span class="number">86</span><span class="percentage">(34,0%)</span></div></li>
+                            <li><span class="label">Madrugada</span><div class="value-group"><span class="number">4</span><span class="percentage">(1,6%)</span></div></li>
+                        </ul>
+                    </div>
+                    <div class="info-block">
+                        <h3>Status dos Agendamentos</h3>
+                        <ul>
+                            <li><span class="label">Finalizado</span><div class="value-group"><span class="number">182</span></div></li>
+                            <li><span class="label">Cancelado</span><div class="value-group"><span class="number">47</span></div></li>
+                            <li><span class="label">Não Compareceu</span><div class="value-group"><span class="number">23</span></div></li>
+                            <li><span class="label">Em Atendimento</span><div class="value-group"><span class="number">1</span></div></li>
+                        </ul>
+                    </div>
+                    <div class="info-block">
+                        <h3>Distribuição por Profissional</h3>
+                        <ul>
+                            <li><span class="label">Angélica</span><div class="value-group"><span class="number">99</span></div></li>
+                            <li><span class="label">Fabiana</span><div class="value-group"><span class="number">82</span></div></li>
+                            <li><span class="label">Maria</span><div class="value-group"><span class="number">72</span></div></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info-block" style="margin-top: 25px;">
+                    <h3>Agendamentos por Dia da Semana</h3>
+                    <ul>
+                        <li><span class="label">Segunda-feira</span><div class="value-group"><span class="number">63</span></div></li>
+                        <li><span class="label">Terça-feira</span><div class="value-group"><span class="number">31</span></div></li>
+                        <li><span class="label">Quarta-feira</span><div class="value-group"><span class="number">41</span></div></li>
+                        <li><span class="label">Quinta-feira</span><div class="value-group"><span class="number">34</span></div></li>
+                        <li><span class="label">Sexta-feira</span><div class="value-group"><span class="number">46</span></div></li>
+                        <li><span class="label">Sábado</span><div class="value-group"><span class="number">38</span></div></li>
+                    </ul>
+                </div>
+                <div class="info-block" style="margin-top: 25px;">
+                    <h3>Serviços Mais Agendados</h3>
+                    <ul>
+                        <li><span class="label">Podologia All Pe - Sessão Única</span><div class="value-group"><span class="number">167</span><span class="percentage">(66,0%)</span></div></li>
+                        <li><span class="label">Onicocriptose - Unilateral</span><div class="value-group"><span class="number">41</span><span class="percentage">(16,2%)</span></div></li>
+                        <li><span class="label">Avaliação Gratuita</span><div class="value-group"><span class="number">24</span><span class="percentage">(9,5%)</span></div></li>
+                        <li><span class="label">Outros Serviços</span><div class="value-group"><span class="number">21</span><span class="percentage">(8,3%)</span></div></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: ANÁLISE FINANCEIRA -->
+            <section class="section">
+                <h2 class="section-title">Análise Financeira Detalhada</h2>
+                <div class="grid-container" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="kpi-card">
+                        <div class="label">Valor Bruto Agendado</div>
+                        <div class="value">R$ 23.728,50</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Receita Efetiva (Finalizado)</div>
+                        <div class="value revenue">R$ 16.721,50</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Perda Potencial (Cancelado/No-Show)</div>
+                        <div class="value negative">R$ 7.007,00</div>
+                    </div>
+                    <div class="kpi-card" style="background: linear-gradient(145deg, #2c234a, #1f1a30); border-color: #8c7ae6;">
+                        <div class="label">Receita Gerada Fora do Expediente</div>
+                        <div class="value" style="color: #c5a6ff;" id="receita-extra">R$ 7.226,20*</div>
+                        <p style="font-size: 0.8em; color: #a0a0b8; margin-top: 10px;">*Receita que teria sido perdida sem o atendimento automatizado 24/7.</p>
+                    </div>
+                </div>
+                <h3 style="margin-top: 50px; text-align: center; font-weight: 400; color: #a0a0b8;">Cálculo da Receita Efetiva</h3>
+                <div class="calculation-breakdown">
+                    <div class="calc-item"><span>R$ 23.728,50</span><label>Total Bruto</label></div>
+                    <div class="calc-operator">-</div>
+                    <div class="calc-item negative"><span>R$ 4.716,00</span><label>Cancelados</label></div>
+                    <div class="calc-operator">-</div>
+                    <div class="calc-item negative"><span>R$ 2.291,00</span><label>Não Compareceu</label></div>
+                    <div class="calc-operator">=</div>
+                    <div class="calc-item positive"><span>R$ 16.721,50</span><label>Receita Efetiva</label></div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: CUSTOS E ROI -->
+            <section class="section roi-section">
+                <h2 class="section-title">Retorno sobre Investimento (ROI)</h2>
+                <div class="roi-grid">
+                     <div class="roi-calculation-details">
+                        <h3>Cálculo do ROI</h3>
+                        <p class="roi-calculation">(Receita Líquida / Custo Total) * 100</p>
+                        <ul class="insight-list">
+                           <li><strong>Receita Efetiva:</strong> R$ 16.721,50</li>
+                           <li><strong>Custo Total (Servidor + IA + Mensalidade):</strong> R$ 1.764,38</li>
+                           <li><strong>Receita Líquida (Receita - Custo):</strong> R$ 14.957,12</li>
+                        </ul>
+                     </div>
+                     <div>
+                        <div class="roi-value" id="roi-final">847,73%</div>
+                        <div class="roi-label">Retorno Excepcional</div>
+                     </div>
+                </div>
+                 <ul class="insight-list" style="margin-top: 30px; text-align:left;">
+                    <li><strong>Conclusão Final:</strong> Para cada R$ 1,00 investido na Pérola em junho, a clínica teve um retorno de <strong>R$ 8,47</strong> em lucro líquido. Este resultado comprova que a agente virtual não é apenas uma ferramenta de automação, mas um poderoso centro de lucro para a Allpé Podologia.</li>
+                </ul>
+            </section>
+
+            <!-- SEÇÃO: POTENCIAL NÃO MENSURADO -->
+            <section class="section">
+                <h2 class="section-title">Potencial Não Mensurado & Considerações</h2>
+                <p style="margin-bottom: 25px; color: #e0e0e0;">
+                    É importante ressaltar que os números apresentados, embora impressionantes, representam uma <strong>estimativa conservadora</strong> do impacto real da Pérola. Existem fatores que atualmente não são rastreados e que podem aumentar ainda mais o seu valor:
+                </p>
+                <ul class="insight-list">
+                    <li>
+                        <strong>Conversão de Avaliações Gratuitas:</strong> A Pérola atua como uma porta de entrada para novos clientes ao agendar avaliações. Frequentemente, essas avaliações se convertem em procedimentos pagos. A receita desses procedimentos, no entanto, não é atribuída à Pérola, subestimando seu papel crucial na geração de novas oportunidades de negócio.
+                    </li>
+                    <li>
+                        <strong>Vendas por Sugestão:</strong> Vendas de produtos ou pacotes adicionais, sugeridos pela Pérola durante a conversa, não são contabilizadas neste relatório.
+                    </li>
+                    <li>
+                        <strong>Reagendamentos Manuais:</strong> Cancelamentos que são posteriormente reagendados manualmente pela equipe não são reatribuídos à Pérola, mascarando sua eficácia na retenção.
+                    </li>
+                    <li>
+                        <strong>Atribuição por Edição:</strong> Agendamentos originados pela Pérola, mas editados pela recepção, têm sua autoria transferida no sistema Trinks, subestimando o número real de captações.
+                    </li>
+                </ul>
+                <div class="context-note">
+                    Estamos trabalhando ativamente para aprimorar a coleta desses dados. Por enquanto, as informações deste relatório foram extraídas diretamente das planilhas fornecidas pelo sistema <strong>Trinks</strong>.
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="footer">
+            Midas Start Marketing Digital LTDA.
+        </footer>
+    </div>
+
+    <!-- SCRIPTS JAVASCRIPT PARA ANIMAÇÃO DE NÚMEROS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function animateValue(element, start, end, duration, isCurrency = false, suffix = '', prefix = '') {
+                if (!element) return;
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    let currentValue = progress * (end - start) + start;
+                    let formattedValue = currentValue.toFixed(2).replace('.', ',');
+                    
+                    if (isCurrency) {
+                        element.innerHTML = `${prefix}${formattedValue}${suffix}`;
+                    } else {
+                        element.innerHTML = `${prefix}${formattedValue}${suffix}`;
+                    }
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        let finalValue = end.toFixed(2).replace('.', ',');
+                        if (isCurrency) {
+                            element.innerHTML = `${prefix}${finalValue}${suffix}`;
+                        } else {
+                            element.innerHTML = `${prefix}${finalValue}${suffix}`;
+                        }
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        if(el.id === 'total-agendamentos') animateValue(el, 0, 253, 1500, false, '', '');
+                        if(el.id === 'receita-efetiva') animateValue(el, 0, 16721.50, 2000, true, 'R$ ');
+                        if(el.id === 'roi-kpi') animateValue(el, 0, 847.73, 2500, false, '%', '');
+                        if(el.id === 'roi-final') animateValue(el, 0, 847.73, 2500, false, '%', '');
+                        if(el.id === 'receita-extra') animateValue(el, 0, 7226.20, 2200, true, 'R$ ', '*');
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(document.getElementById('total-agendamentos'));
+            observer.observe(document.getElementById('receita-efetiva'));
+            observer.observe(document.getElementById('roi-kpi'));
+            observer.observe(document.getElementById('roi-final'));
+            observer.observe(document.getElementById('receita-extra'));
+        });
+    </script>
+
+</body>
+</html>
